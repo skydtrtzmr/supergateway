@@ -1,0 +1,22 @@
+version: '3.8'
+name: supergateway
+services:
+  supergateway:
+    image: skydtrtzmr/supergateway:latest
+    ports:
+      - "8000:8000"
+    command: >
+      --stdio "npx -y @directus/content-mcp@latest"
+      --port 8000
+      --baseUrl http://localhost:8000
+      --ssePath /sse
+      --messagePath /message
+    volumes:
+      - ./:/app
+    environment:
+      - NODE_ENV=production
+      - DIRECTUS_URL=${DIRECTUS_URL}
+      - DIRECTUS_TOKEN=${DIRECTUS_TOKEN}
+    env_file:
+      - .env
+    restart: unless-stopped 
